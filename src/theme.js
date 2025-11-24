@@ -1,139 +1,148 @@
-// color design tokens export
-export const tokensDark = {
-  grey: {
-    0: "#ffffff", // manually adjusted
-    10: "#f6f6f6", // manually adjusted
-    50: "#f0f0f0", // manually adjusted
-    100: "#e0e0e0",
-    200: "#c2c2c2",
-    300: "#a3a3a3",
-    400: "#858585",
-    500: "#666666",
-    600: "#525252",
-    700: "#3d3d3d",
-    800: "#292929",
-    900: "#141414",
-    1000: "#000000", // manually adjusted
-  },
+export const tokensLight = {
   primary: {
-    // blue
-    100: "#d3d4de",
-    200: "#a6a9be",
-    300: "#7a7f9d",
-    400: "#4d547d",
-    500: "#21295c",
-    600: "#191F45", // manually adjusted
-    700: "#141937",
-    800: "#0d1025",
-    900: "#070812",
+    0:  "#000000",
+    10: "#080808",
+    50: "#141414",
+    100:"#212121",
+    200:"#303030",
+    300:"#424242",
+    400:"#616161",
+    500:"#757575",  // main neutral text
+    600:"#9e9e9e",
+    700:"#bdbdbd",
+    800:"#e0e0e0",
+    900:"#f5f5f5",
+    1000:"#ffffff",
   },
+
+  grey: {
+    100:"#faf5ff",
+    200:"#f3e8ff",
+    300:"#e0c4ff",
+    400:"#c39dff",
+    500:"#a855f7",
+    600:"#9333ea",
+    700:"#7e22ce",
+    800:"#6b21a8",
+    900:"#581c87",
+  },
+
   secondary: {
-    // yellow
-    50: "#f0f0f0", // manually adjusted
-    100: "#fff6e0",
-    200: "#ffedc2",
-    300: "#ffe3a3",
-    400: "#ffda85",
-    500: "#ffd166",
-    600: "#cca752",
-    700: "#997d3d",
-    800: "#665429",
-    900: "#332a14",
+    50: "#faf7ff",
+    100:"#f0ecff",
+    200:"#e0daf8",
+    300:"#cdc6ea",
+    400:"#b6afda",
+    500:"#9d96c3",
+    600:"#8079a3",
+    700:"#645e80",
+    800:"#47435a",
+    900:"#2d2a38",
   },
 };
 
-// function that reverses the color palette
-function reverseTokens(tokensDark) {
-  const reversedTokens = {};
-  Object.entries(tokensDark).forEach(([key, val]) => {
-    const keys = Object.keys(val);
-    const values = Object.values(val);
-    const length = keys.length;
-    const reversedObj = {};
-    for (let i = 0; i < length; i++) {
-      reversedObj[keys[i]] = values[length - i - 1];
-    }
-    reversedTokens[key] = reversedObj;
-  });
-  return reversedTokens;
-}
-export const tokensLight = reverseTokens(tokensDark);
+export const tokensDark = {
+  primary: {
+    0:  "#ffffff",
+    10: "#f5f5f5",
+    50: "#e0e0e0",
+    100:"#bdbdbd",
+    200:"#9e9e9e",
+    300:"#757575",
+    400:"#616161",
+    500:"#424242",   // main
+    600:"#303030",
+    700:"#212121",
+    800:"#141414",
+    900:"#080808",
+    1000:"#000000",
+  },
 
-// mui theme settings
+  grey: {
+    100:"#faf5ff",
+    200:"#f3e8ff",
+    300:"#e0c4ff",
+    400:"#c39dff",
+    500:"#a855f7", // mid purple
+    600:"#9333ea",
+    700:"#7e22ce",
+    800:"#6b21a8",
+    900:"#581c87",
+  },
+
+  secondary: {
+    50: "#faf7ff",
+    100:"#f0ecff",
+    200:"#e0daf8",
+    300:"#cdc6ea",
+    400:"#b6afda",
+    500:"#9d96c3",
+    600:"#8079a3",
+    700:"#645e80",
+    800:"#47435a",
+    900:"#2d2a38",
+  },
+};
+
+
+
 export const themeSettings = (mode) => {
+  const tokens = mode === "dark" ? tokensDark : tokensLight;
+  const isDark = mode === "dark";
+
+  // Stronger purple in light mode, slightly softer in dark
+  const primaryMain  = isDark ? tokens.grey[400] : tokens.grey[700];
+  const primaryLight = isDark ? tokens.grey[200] : tokens.grey[500];
+  const primaryDark  = isDark ? tokens.grey[600] : tokens.grey[800];
+
   return {
     palette: {
-      mode: mode,
-      ...(mode === "dark"
-        ? {
-            // palette values for dark mode
-            primary: {
-              ...tokensDark.primary,
-              main: tokensDark.primary[400],
-              light: tokensDark.primary[400],
-            },
-            secondary: {
-              ...tokensDark.secondary,
-              main: tokensDark.secondary[300],
-            },
-            neutral: {
-              ...tokensDark.grey,
-              main: tokensDark.grey[500],
-            },
-            background: {
-              default: tokensDark.primary[600],
-              alt: tokensDark.primary[500],
-            },
-          }
-        : {
-            // palette values for light mode
-            primary: {
-              ...tokensLight.primary,
-              main: tokensDark.grey[50],
-              light: tokensDark.grey[100],
-            },
-            secondary: {
-              ...tokensLight.secondary,
-              main: tokensDark.secondary[600],
-              light: tokensDark.secondary[700],
-            },
-            neutral: {
-              ...tokensLight.grey,
-              main: tokensDark.grey[500],
-            },
-            background: {
-              default: tokensDark.grey[0],
-              alt: tokensDark.grey[50],
-            },
-          }),
+      mode,
+
+      // Purple accent
+      primary: {
+        ...tokens.grey,
+        main: primaryMain,
+        light: primaryLight,
+        dark: primaryDark,
+      },
+
+      // Support color
+      secondary: {
+        ...tokens.secondary,
+        main: tokens.secondary[500],
+        light: tokens.secondary[300],
+        dark: tokens.secondary[700],
+      },
+
+      // Neutral greys (black/white scale)
+      neutral: {
+        ...tokens.primary,
+        main: tokens.primary[500],
+      },
+
+      // Page backgrounds
+      background: {
+        default: isDark ? tokens.primary[900] : tokens.primary[1000], // black vs white
+        alt:      isDark ? tokens.primary[800] : tokens.primary[900],  // panel bg
+      },
+
+      // Make sure text is legible
+      text: {
+        primary: isDark ? tokens.primary[10]  : tokens.primary[100],
+        secondary: isDark ? tokens.primary[200] : tokens.primary[300],
+      },
     },
+
     typography: {
       fontFamily: ["Inter", "sans-serif"].join(","),
       fontSize: 12,
-      h1: {
-        fontFamily: ["Inter", "sans-serif"].join(","),
-        fontSize: 40,
-      },
-      h2: {
-        fontFamily: ["Inter", "sans-serif"].join(","),
-        fontSize: 32,
-      },
-      h3: {
-        fontFamily: ["Inter", "sans-serif"].join(","),
-        fontSize: 24,
-      },
-      h4: {
-        fontFamily: ["Inter", "sans-serif"].join(","),
-        fontSize: 20,
-      },
-      h5: {
-        fontFamily: ["Inter", "sans-serif"].join(","),
-        fontSize: 16,
-      },
-      h6: {
-        fontFamily: ["Inter", "sans-serif"].join(","),
-        fontSize: 14,
-      },
+      h1: { fontFamily: "Inter, sans-serif", fontSize: 40 },
+      h2: { fontFamily: "Inter, sans-serif", fontSize: 32 },
+      h3: { fontFamily: "Inter, sans-serif", fontSize: 24 },
+      h4: { fontFamily: "Inter, sans-serif", fontSize: 20 },
+      h5: { fontFamily: "Inter, sans-serif", fontSize: 16 },
+      h6: { fontFamily: "Inter, sans-serif", fontSize: 14 },
     },
   };
 };
