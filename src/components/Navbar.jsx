@@ -6,8 +6,6 @@ import {
   Menu as MenuIcon,
   Search,
   SettingsOutlined,
-  ArrowDropDownOutlined,
-  Settings,
 } from "@mui/icons-material";
 import {
   AppBar,
@@ -19,7 +17,6 @@ import {
 import FlexBetween from "./FlexBetween";
 import { useDispatch } from "react-redux";
 import { setMode } from "state";
-import profileImage from "assets/profile_picture.png";
 
 const Navbar = ({
   isSidebarOpen,
